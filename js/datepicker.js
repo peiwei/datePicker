@@ -1049,7 +1049,7 @@ var datePickerController = (function datePickerController() {
                 return;
             };
 
-            var tr, row, col, tableHead, tableBody, tableFoot;
+            var tr, row, col, tableHead, tableBody, tableFoot, buttons;
 
             this.noFocus = true;
 
@@ -1213,14 +1213,18 @@ var datePickerController = (function datePickerController() {
             tr  = document.createElement('tr');
             setARIARole(tr, "presentation");
             tableHead.appendChild(tr);
+            buttons = [];
+            if (!o.noNextYear) {
+                buttons.push({className:"prev-but prev-year",  id:"-prev-year-but", text:"\u00AB", title:getTitleTranslation(2) });
+            }
+            buttons.push({className:"prev-but prev-month", id:"-prev-month-but", text:"\u2039", title:getTitleTranslation(0) });
+            buttons.push({colspan:o.noNextYear?5:(this.showWeeks ? 4 : 3), className:"today-but", id:"-today-but", text:getTitleTranslation(4)});
+            buttons.push({className:"next-but next-month", id:"-next-month-but", text:"\u203A", title:getTitleTranslation(1)});
+            if (!o.noNextYear) {
+                buttons.push({className:"next-but next-year",  id:"-next-year-but", text:"\u00BB", title:getTitleTranslation(3) });
+            }
 
-            createThAndButton(tr, [
-            {className:"prev-but prev-year",  id:"-prev-year-but", text:"\u00AB", title:getTitleTranslation(2) },
-            {className:"prev-but prev-month", id:"-prev-month-but", text:"\u2039", title:getTitleTranslation(0) },
-            {colspan:this.showWeeks ? 4 : 3, className:"today-but", id:"-today-but", text:getTitleTranslation(4)},
-            {className:"next-but next-month", id:"-next-month-but", text:"\u203A", title:getTitleTranslation(1)},
-            {className:"next-but next-year",  id:"-next-year-but", text:"\u00BB", title:getTitleTranslation(3) }
-            ]);
+            createThAndButton(tr, buttons);
 
             tableBody = document.createElement('tbody');
             this.table.appendChild(tableBody);
@@ -3392,6 +3396,8 @@ var datePickerController = (function datePickerController() {
             statusFormat:options.statusFormat || statusFormat,
             // No fade in/out effect
             noFadeEffect:!!(options.staticPos) ? true : !!(options.noFadeEffect),
+            // No next year previous year
+            noNextYear:options.noNextYearButton ? true : !!(options.noNextYearButton),
             // No drag functionality
             dragDisabled:nodrag || !!(options.staticPos) ? true : !!(options.dragDisabled),
             // Bespoke tabindex for this datePicker (or its activation button)

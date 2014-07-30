@@ -1349,7 +1349,7 @@ var datePickerController = (function datePickerController() {
         this.fade = function() {
             window.clearTimeout(o.fadeTimer);
             o.fadeTimer = null;
-            if(cssAnimations) {
+            if(cssAnimations && !o.noFadeEffect) {
                 o.opacity = o.opacityTo;
                 if(o.opacityTo == 0) {
                     o.visible = false;
@@ -2275,17 +2275,17 @@ var datePickerController = (function datePickerController() {
             return;
         };
 
-        addEvent(document, "keypress", this.onkeydown);
+        //addEvent(document, "keypress", this.onkeydown);
         addEvent(document, "mousedown", this.onmousedown);
 
-        if(oldIE) {
-            removeEvent(document, "keypress", this.onkeydown);
+        //if(oldIE) {
+        //    removeEvent(document, "keypress", this.onkeydown);
             addEvent(document, "keydown", this.onkeydown);
-        };
-        if(window.devicePixelRatio) {
-            removeEvent(document, "keypress", this.onkeydown);
-            addEvent(document, "keydown", this.onkeydown);
-        };
+        //};
+        //if(window.devicePixelRatio) {
+        //    removeEvent(document, "keypress", this.onkeydown);
+        //    addEvent(document, "keydown", this.onkeydown);
+        //};
         this.noFocus = false;
         this.kbEventsAdded = true;
     };
